@@ -248,14 +248,36 @@ async def getimage(client, message):
             )
             return
     if message.document:
-        if not message.document.file_name.endswith(".jpg"):
+        if not message.document.file_name.endswith('.jpg', '.jpeg', '.png', '.gif', '.mp4'):
             return
-    tmp = os.path.join("downloads", str(message.chat.id))
-    if not os.path.isdir(tmp):
-        os.makedirs(tmp)
-    img_path = os.path.join(tmp, str(uuid.uuid4()) + ".jpg")
+    tmp = "./downloads/" + str(message.from_user.id)) + "/"
+    if message.document:
+        if not message.document.file_size <= 5242880:
+            return
+        else:
+            pass
+    elif message.video:
+        if not message.video.file_size <= 5242880:
+            return
+        else:
+            pass
+    elif message.photo:
+        if not message.photo.file_size <= 5242880:
+            return
+        else:
+            pass
+    elif message.voice:
+        if not message.voice.file_size <= 5242880:
+            return
+        else:
+            pass
+    else:
+        pass
+#     img_path = os.path.join(tmp, str(uuid.uuid4()) + ".jpg")
     dwn = await message.reply_text("Downloading ...", True)
-    img_path = await client.download_media(message=message, file_name=img_path)
+    if not os.path.exists(tmp):
+        os.makedirs(tmp)
+    img_path = await client.download_media(message=message, file_name=tmp)
     await dwn.edit_text("Uploading ...")
     try:
         response = upload_file(img_path)
