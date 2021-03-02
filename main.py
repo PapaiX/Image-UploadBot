@@ -247,9 +247,6 @@ async def getimage(client, message):
                 disable_web_page_preview=True
             )
             return
-    if message.document:
-        if not message.document.file_name.endswith('.jpg', '.jpeg', '.png', '.gif', '.mp4'):
-            return
     tmp = "./downloads/" + str(message.from_user.id) + "/"
     if message.document:
         if not message.document.file_size <= 5242880:
